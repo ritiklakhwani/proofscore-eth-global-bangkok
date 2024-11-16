@@ -11,8 +11,7 @@
     "format": "prettier --write . '!(node_modules|.next|contracts)/**/*'",
     "check-types": "tsc --noEmit --incremental",
     "vercel": "vercel",
-    "vercel:yolo": "vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true",
-    "postinstall": "patch-package"
+    "vercel:yolo": "vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true"
   },
   "dependencies": {
     "@dynamic-labs/ethereum": "^3.0.0",
@@ -40,7 +39,6 @@
     "openai": "^4.28.0",
     "patch-package": "^8.0.0",
     "permissionless": "0.1.22",
-    "postinstall-postinstall": "^2.1.0",
     "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",

@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Loader2, Search } from "lucide-react";
 
 interface AddressSearchProps {
   onSearch: (address: string) => void;
+  initialAddress?: string;
 }
 
-export default function AddressSearch({ onSearch }: AddressSearchProps) {
-  const [address, setAddress] = useState("");
+export default function AddressSearch({ onSearch, initialAddress }: AddressSearchProps) {
+  const [address, setAddress] = useState(initialAddress || "");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialAddress) {
+      setAddress(initialAddress);
+    }
+  }, [initialAddress]);
 
   const validateAddress = (address: string) => {
     return address.match(/^0x[a-fA-F0-9]{40}$/);
@@ -28,11 +35,13 @@ export default function AddressSearch({ onSearch }: AddressSearchProps) {
     setError("");
     setIsLoading(true);
 
-    // simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    setIsLoading(false);
-    onSearch(address);
+    try {
+      onSearch(address);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to analyze address");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,7 +49,7 @@ export default function AddressSearch({ onSearch }: AddressSearchProps) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col space-y-2">
           <label htmlFor="address" className="text-lg font-medium text-gray-300">
-            Enter an Ethereum Address to Begin
+            {initialAddress ? "Connected Address" : "Enter an Ethereum Address to Begin"}
           </label>
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />

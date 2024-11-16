@@ -1,8 +1,8 @@
 import React from "react";
-
-// import { useAIScore } from '../hooks/useAIScore';
-// import AIScoreAnalysis from './AIScoreAnalysis';
-// import ChainSection from './ChainSection';
+import AIScoreAnalysis from "./AIScoreAnalysis";
+import ChainSection from "./ChainSection";
+import { useAIScore } from "~~/hooks/proofscore/useAIScore";
+import { NETWORKS } from "~~/utils/networks";
 
 interface DetailedReportProps {
   address: string;
@@ -20,12 +20,12 @@ interface DetailedReportProps {
 
 export default function DetailedReport({ address, data }: DetailedReportProps) {
   console.log("params", address, data);
-  // const { analysis, isLoading: isAILoading, error: aiError } = useAIScore(address, data);
+  const { analysis, isLoading: isAILoading, error: aiError } = useAIScore(address, data);
 
   return (
     <div className="space-y-8">
-      {/* {analysis && <AIScoreAnalysis analysis={analysis} />}
-      
+      {analysis && <AIScoreAnalysis analysis={analysis as any} />}
+
       {isAILoading && (
         <div className="card p-6 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500 mx-auto"></div>
@@ -33,27 +33,17 @@ export default function DetailedReport({ address, data }: DetailedReportProps) {
         </div>
       )}
 
-      {aiError && (
-        <div className="card p-6 text-center text-red-400">
-          Error analyzing score: {aiError}
-        </div>
-      )} */}
-      {/* <div className="space-y-6">
+      {aiError && <div className="card p-6 text-center text-red-400">Error analyzing score: {aiError}</div>}
+      <div className="space-y-6">
         {Object.entries(NETWORKS).map(([key, network]) => (
           <ChainSection
             key={key}
             network={network}
             address={address}
-            data={
-              key === 'SEPOLIA' 
-                ? data.sepolia 
-                : key === 'BASE_SEPOLIA' 
-                  ? data.baseSepolia 
-                  : undefined
-            }
+            data={key === "SEPOLIA" ? data.sepolia : key === "BASE_SEPOLIA" ? data.baseSepolia : undefined}
           />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }
